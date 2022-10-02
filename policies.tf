@@ -1,17 +1,4 @@
-# #data resource with "aws_iam_policy_document" can be used to get policies available readily.
 
-# data "aws_iam_policy_document" "ec2_readonly" {
-#   statement {
-#     actions = [
-#     "ec2:Describe*"]
-#     resources = [
-#     "*"]
-#   }
-# }
-# resource "aws_iam_policy" "ec2_readonly" {
-#   name   = "ec2_readonly"
-#   policy = "${data.aws_iam_policy_document.ec2_readonly.json}"
-# }
 data "aws_iam_policy" "AWSHealthFullAccess" {
   arn = "arn:aws:iam::aws:policy/AWSHealthFullAccess"
 }
@@ -20,7 +7,6 @@ resource "aws_iam_policy_attachment" "health-attach" {
   groups     = [aws_iam_group.group.name]
   policy_arn = data.aws_iam_policy.AWSHealthFullAccess.arn
 }
-
 resource "aws_iam_policy_attachment" "RDS-attach" {
   name       = "RDS-attachment"
   groups     = [aws_iam_group.group.name]
@@ -106,23 +92,6 @@ resource "aws_iam_policy" "IAM_full" {
 {
 "Effect": "Allow",
 "Action": "iam:*",
-"Resource": "*"
-}
-]
-}
-EOF
-}
-resource "aws_iam_policy" "DynamoDB_full" {
-  name        = "Cloudwatch-policy"
-  description = "My test policy"
-
-  policy = <<EOF
-{
-"Version": "2012-10-17",
-"Statement": [
-{
-"Effect": "Allow",
-"Action": "dynamodb:*",
 "Resource": "*"
 }
 ]
